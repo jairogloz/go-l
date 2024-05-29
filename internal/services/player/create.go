@@ -8,10 +8,8 @@ import (
 )
 
 func (s Service) Create(player domain.Player) (id interface{}, err error) {
-	// Set creation time
-	// Save to repo
-	// Responder con el id del recurso creado
-	player.CreationTime = time.Now().UTC()
+	now := time.Now().UTC()
+	player.CreatedAt = &now
 
 	// ========= =repo
 	insertedId, err := s.Repo.Insert(player)
