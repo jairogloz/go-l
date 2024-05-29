@@ -25,15 +25,15 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	playerRepo := playerMongo.Repository{
+	playerRepo := &playerMongo.Repository{
 		Client: client,
 	}
 
-	playerSrv := playerService.Service{
+	playerSrv := &playerService.Service{
 		Repo: playerRepo,
 	}
 
-	playerHandler := player.Handler{
+	playerHandler := &player.Handler{
 		PlayerService: playerSrv,
 	}
 

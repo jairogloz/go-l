@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-func (r Repository) Insert(player domain.Player) (id interface{}, err error) {
+func (r *Repository) Insert(player domain.Player) (id interface{}, err error) {
 
 	// ===============
 	collection := r.Client.Database("go-l").Collection("players")

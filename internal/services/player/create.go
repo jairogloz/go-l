@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func (s Service) Create(player domain.Player) (id interface{}, err error) {
+func (s *Service) Create(player domain.Player) (id interface{}, err error) {
 	now := time.Now().UTC()
 	player.CreatedAt = &now
 

@@ -9,7 +9,7 @@ import (
 
 func ConnectClient(dbURI string) (client *mongo.Client, err error) {
 	// Set a timeout to allow the connection process to abort if it takes too long.
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
 	// Connect to the MongoDB server
