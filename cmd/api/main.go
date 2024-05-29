@@ -2,18 +2,43 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jairogloz/go-l/cmd/api/core"
+	"github.com/jairogloz/go-l/cmd/api/handlers/player"
+	"github.com/jairogloz/go-l/internal/repositories/mongo"
+	playerMongo "github.com/jairogloz/go-l/internal/repositories/mongo/player"
+	playerService "github.com/jairogloz/go-l/internal/services/player"
+	"github.com/joho/godotenv"
 	"log"
+	"os"
 )
 
 func main() {
 
-	server := core.Server{GinEngine: gin.Default()}
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-	server.GinEngine.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "pong!"})
-	})
+	ginEngine := gin.Default()
 
-	log.Fatalln(server.GinEngine.Run(":8001"))
+	client, err := mongo.ConnectClient(os.Getenv("MONGO_URI"))
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	playerRepo := playerMongo.Repository{
+		Client: client,
+	}
+
+	playerSrv := playerService.Service{
+		Repo: playerRepo,
+	}
+
+	playerHandler := player.Handler{
+		PlayerService: playerSrv,
+	}
+
+	ginEngine.POST("/players", playerHandler.CreatePlayer)
+
+	log.Fatalln(ginEngine.Run(":8001"))
 
 }
