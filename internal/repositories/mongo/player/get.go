@@ -34,5 +34,7 @@ func (r *Repository) Get(id domain.Player) (player domain.Player, err error) {
 		err = GetPlayerError{Err: err}
 		return
 	}
+
+	player.ID = playerID.Hex()
 	return
 }
