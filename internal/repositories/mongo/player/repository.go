@@ -10,5 +10,6 @@ import (
 var _ ports.PlayerRepository = &Repository{}
 
 type Repository struct {
-	Client *mongo.Client
+	Client     *mongo.Client
+	Collection *mongo.Collection
 }

@@ -2,29 +2,39 @@ package player
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/jairogloz/go-l/cmd/api/core"
 	"github.com/jairogloz/go-l/internal/domain"
-	"net/http"
 )
 
+// CreatePlayer godoc
+// @Summary Create a new player
+// @Description Create a new player with the input payload
+// @Tags players
+// @Accept  json
+// @Produce  json
+// @Param playerCreateParams body core.PlayerCreateParams true "Create player"
+// @Success 200 {object} map[string]interface{} "player_id: string"
+// @Failure 400 {object} map[string]interface{} "error: string"
+// @Router /players [post]
 func (h Handler) CreatePlayer(c *gin.Context) {
-	// Traducir el request
-	// int: validacion
-	// consumir un servicio
-	// traducir el response
-	var playerCreateParams domain.Player
-	if err := c.BindJSON(&playerCreateParams); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+	var playerCreateParams core.PlayerCreateParams
+	if err := c.ShouldBindJSON(&playerCreateParams); err != nil {
+		core.RespondError(c, domain.NewAppError(domain.ErrCodeInvalidParams, err.Error()))
 		return
 	}
 
-	// ==================
-
-	insertedId, err := h.PlayerService.Create(playerCreateParams)
+	player := &domain.Player{
+		ContactInfo: playerCreateParams.ContactInfo,
+		DateOfBirth: playerCreateParams.DateOfBirth,
+		FirstName:   playerCreateParams.FirstName,
+		LastName:    playerCreateParams.LastName,
+		TeamInfo:    playerCreateParams.TeamInfo,
+	}
+	err := h.PlayerService.Create(player)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "oops!"})
+		core.RespondError(c, err)
+		return
 	}
 
-	// ==================
-
-	c.JSON(200, gin.H{"player_id": insertedId})
+	c.JSON(200, player)
 }

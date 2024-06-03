@@ -26,7 +26,8 @@ func main() {
 	}
 
 	playerRepo := &playerMongo.Repository{
-		Client: client,
+		Client:     client,
+		Collection: client.Database("go-l").Collection("players"),
 	}
 
 	playerSrv := &playerService.Service{

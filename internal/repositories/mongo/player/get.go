@@ -19,8 +19,8 @@ func (e GetPlayerError) Error() string {
 	return fmt.Sprintf("error getting player: %s", e.Err.Error())
 }
 
-func (r *Repository) Get(id domain.Player) (player domain.Player, err error) {
-	playerID, err := primitive.ObjectIDFromHex(id.ID)
+func (r *Repository) Get(id string) (player domain.Player, err error) {
+	playerID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		log.Println(err.Error())
 		err = GetPlayerError{Err: err}
