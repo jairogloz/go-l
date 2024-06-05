@@ -30,11 +30,11 @@ func (h Handler) CreatePlayer(c *gin.Context) {
 		LastName:    playerCreateParams.LastName,
 		TeamInfo:    playerCreateParams.TeamInfo,
 	}
-	err := h.PlayerService.Create(player)
-	if err != nil {
-		core.RespondError(c, err)
-		return
-	}
+	h.PlayerService.Create(player)
+	// if err != nil {
+	// 	core.RespondError(c, err)
+	// 	return
+	// }
 
 	c.JSON(200, player)
 }
