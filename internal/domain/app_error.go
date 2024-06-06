@@ -3,6 +3,7 @@ package domain
 import (
 	"errors"
 	"fmt"
+	"log"
 )
 
 const (
@@ -35,4 +36,40 @@ func NewAppError(code string, msg string) AppError {
 // Error returns a string representation of the error. It is part of the error interface.
 func (e AppError) Error() string {
 	return fmt.Sprintf("%s: %s", e.Code, e.Msg)
+}
+
+func ManageError(err error, msg string) error {
+	var appErr AppError
+
+	switch err {
+	case ErrDuplicateKey:
+		log.Println("duplicate key")
+		appErr = AppError{
+			Code: ErrCodeDuplicateKey,
+			Msg:  "Duplicate key",
+		}
+	case ErrIncorrectID:
+		log.Println("incorrect id error")
+		appErr = AppError{
+			Code: ErrCodeInvalidParams,
+			Msg:  "Incorrect id",
+		}
+	case ErrNotFound:
+		log.Println("not found error")
+		appErr = AppError{
+			Code: ErrCodeNotFound,
+			Msg:  "Not found",
+		}
+	default:
+		log.Println(err.Error())
+		appErr = AppError{
+			Code: ErrCodeInternalServerError,
+			Msg:  "Server Error",
+		}
+	}
+
+	if msg != "" {
+		appErr.Msg = fmt.Sprintf("%s: %s", msg, appErr.Msg)
+	}
+	return appErr
 }
