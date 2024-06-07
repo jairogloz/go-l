@@ -34,7 +34,7 @@ func (s *Service) Create(ctx context.Context, team *domain.Team) (err error) {
 	err = s.Repo.Insert(ctx, team)
 	if err != nil {
 		if errors.Is(err, domain.ErrDuplicateKey) {
-			log.Fatalln("Duplicate key error")
+			log.Println("Duplicate key error")
 			appErr := domain.AppError{
 				Code: domain.ErrCodeDuplicateKey,
 				Msg:  "error creating team: duplicate key error",
