@@ -5,14 +5,13 @@ import (
 	"errors"
 	"log/slog"
 
+	"github.com/jairogloz/go-l/internal/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var (
-	ErrPlayerNotFound = errors.New("player not found")
-	ErrDeletePlayer   = errors.New("error deleting player")
-	ErrIncorrectHexID = errors.New("incorrect mongo Hex format")
+	ErrDeletePlayer = errors.New("error deleting player")
 )
 
 // Used for delete one player by id from the database
@@ -21,7 +20,7 @@ func (r *Repository) Delete(id string) (err error) {
 	playerID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		slog.Error("converting id to object id: ", slog.Any("mongodb", err))
-		return ErrIncorrectHexID
+		return domain.ErrIncorrectID
 	}
 
 	collection := r.Client.Database("go-l").Collection("players")
@@ -34,7 +33,7 @@ func (r *Repository) Delete(id string) (err error) {
 
 	if deleteResult.DeletedCount == 0 {
 		slog.Error("player not found")
-		return ErrPlayerNotFound
+		return domain.ErrNotFound
 	}
 
 	return nil
