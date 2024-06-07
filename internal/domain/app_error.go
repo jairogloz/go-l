@@ -68,8 +68,9 @@ func ManageError(err error, msg string) error {
 		}
 	}
 
-	if msg != "" {
-		appErr.Msg = fmt.Sprintf("%s: %s", msg, appErr.Msg)
+	// We only add the custom message if the error is not an internal server error
+	if msg != "" && appErr.Code != ErrCodeInternalServerError {
+		appErr.Msg = fmt.Sprintf("%s: %s", appErr.Msg, msg)
 	}
 	return appErr
 }
