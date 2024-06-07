@@ -8,7 +8,7 @@ import (
 
 // GetPlayer godoc
 // @Summary Get a player
-// @Description Create a new player with the input payload
+// @Description get a player with id param
 // @Tags players
 // @Accept  json
 // @Produce  json
