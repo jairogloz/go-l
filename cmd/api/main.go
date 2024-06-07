@@ -1,14 +1,15 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jairogloz/go-l/cmd/api/handlers/player"
 	"github.com/jairogloz/go-l/internal/repositories/mongo"
 	playerMongo "github.com/jairogloz/go-l/internal/repositories/mongo/player"
 	playerService "github.com/jairogloz/go-l/internal/services/player"
 	"github.com/joho/godotenv"
-	"log"
-	"os"
 )
 
 func main() {
@@ -38,6 +39,7 @@ func main() {
 		PlayerService: playerSrv,
 	}
 
+	ginEngine.GET("/players/:id", playerHandler.GetPlayer)
 	ginEngine.POST("/players", playerHandler.CreatePlayer)
 
 	log.Fatalln(ginEngine.Run(":8001"))

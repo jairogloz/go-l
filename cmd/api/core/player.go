@@ -10,3 +10,8 @@ type PlayerCreateParams struct {
 	LastName    string              `json:"last_name" binding:"required"`
 	TeamInfo    *domain.TeamInfo    `json:"team_info" binding:"required"`
 }
+
+// PlayerIdParama is a struct that represents the parameters needed to get a player by id.
+type PlayerIdParam struct {
+	Id string `json:"id" binding:"required"`
+}
