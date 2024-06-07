@@ -18,7 +18,7 @@ import (
 // @Router /players/:id [get]
 func (h Handler) GetPlayer(c *gin.Context) {
 	var playerIdParam core.PlayerIdParam
-	if err := c.ShouldBindJSON(&playerIdParam); err != nil {
+	if err := c.ShouldBindUri(&playerIdParam); err != nil {
 		core.RespondError(c, domain.NewAppError(domain.ErrCodeInvalidParams, err.Error()))
 		return
 	}

@@ -13,5 +13,5 @@ type PlayerCreateParams struct {
 
 // PlayerIdParama is a struct that represents the parameters needed to get a player by id.
 type PlayerIdParam struct {
-	Id string `json:"id" binding:"required"`
+	Id string `uri:"id" binding:"required"`
 }
