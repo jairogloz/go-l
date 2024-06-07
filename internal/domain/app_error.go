@@ -12,7 +12,10 @@ const (
 	ErrCodeNotFound            = "not_found"
 )
 
-var ErrDuplicateKey = errors.New("duplicate key error")
+var (
+	ErrDuplicateKey = errors.New("duplicate key error")
+	ErrNotFound     = errors.New("not found")
+)
 
 // AppError is a custom error type that implements the error interface
 type AppError struct {
