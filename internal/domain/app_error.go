@@ -14,7 +14,6 @@ const (
 
 var (
 	ErrDuplicateKey = errors.New("duplicate key error")
-	ErrNotFound     = errors.New("not found")
 )
 
 // AppError is a custom error type that implements the error interface
