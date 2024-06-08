@@ -3,7 +3,6 @@ package player
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jairogloz/go-l/cmd/api/core"
-	"github.com/jairogloz/go-l/internal/domain"
 )
 
 // GetPlayer godoc
@@ -17,13 +16,8 @@ import (
 // @Failure 400 {object} map[string]interface{} "error: string"
 // @Router /players/:id [get]
 func (h Handler) GetPlayer(c *gin.Context) {
-	var playerIdParam core.PlayerIdParam
-	if err := c.ShouldBindUri(&playerIdParam); err != nil {
-		core.RespondError(c, domain.NewAppError(domain.ErrCodeInvalidParams, err.Error()))
-		return
-	}
-
-	player, err := h.PlayerService.Get(playerIdParam.Id)
+	playerIdParam := c.Param("id")
+	player, err := h.PlayerService.Get(playerIdParam)
 	if err != nil {
 		core.RespondError(c, err)
 		return
