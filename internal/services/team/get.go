@@ -25,5 +25,12 @@ func (s Service) Get(ctx context.Context, id string) (team domain.Team, players 
 		return
 	}
 
+	players, err = s.Repo.GetPlayers(ctx, id)
+	if err != nil {
+		log.Println(err.Error())
+		err = GetTeamError{err}
+		return
+	}
+
 	return
 }
