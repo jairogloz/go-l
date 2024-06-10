@@ -1,13 +1,15 @@
 package domain
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"time"
+)
 
 // Team reflects a sports team in our system.
 type Team struct {
-	CreatedAt primitive.DateTime `json:"created_at" bson:"created_at"`
-	ID        interface{}        `json:"-" bson:"_id,omitempty"`
-	Name      string             `json:"name" bson:"name"`
-	UpdatedAt primitive.DateTime `json:"updated_at" bson:"updated_at"`
+	CreatedAt *time.Time  `json:"created_at" bson:"created_at"`
+	ID        interface{} `json:"-" bson:"_id,omitempty"`
+	Name      string      `json:"name" bson:"name"`
+	UpdatedAt *time.Time  `json:"updated_at" bson:"updated_at"`
 }
 
 // TeamInfo represents the team information of a player, not the
