@@ -12,7 +12,7 @@ import (
 .
 */
 func (s *Service) Create(ctx context.Context, team *domain.Team) (err error) {
-	now := time.Time.UTC()
+	now := time.Now().UTC()
 	team.CreatedAt = &now
 
 	err = s.Repo.Insert(ctx, team)
