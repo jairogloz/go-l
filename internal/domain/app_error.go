@@ -15,6 +15,8 @@ const (
 
 var (
 	ErrDuplicateKey = errors.New("duplicate key error")
+	ErrIncorrectID  = errors.New("incorrect id error")
+	ErrNotFound     = errors.New("not found error")
 )
 
 // AppError is a custom error type that implements the error interface
