@@ -9,7 +9,14 @@ import (
 )
 
 /*
-.
+Create a new team
+
+Params:
+- ctx: context.Context
+- team: *domain.Team
+
+Return:
+- error
 */
 func (s *Service) Create(ctx context.Context, team *domain.Team) (err error) {
 	now := time.Now().UTC()
