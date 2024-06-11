@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+/build
 
 # Test binary, built with `go test -c`
 *.test
@@ -37,3 +38,7 @@
 
 # Ignore .env file
 .env
+
+# Ignore coverage files
+coverage.out
+coverage.html

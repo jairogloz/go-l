@@ -39,6 +39,7 @@ func main() {
 	}
 
 	ginEngine.POST("/players", playerHandler.CreatePlayer)
+	ginEngine.DELETE("/players/:id", playerHandler.DeletePlayer)
 
 	log.Fatalln(ginEngine.Run(":8001"))
 
