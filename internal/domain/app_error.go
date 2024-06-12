@@ -41,20 +41,20 @@ func (e AppError) Error() string {
 func ManageError(err error, msg string) error {
 	var appErr AppError
 
-	switch err {
-	case ErrDuplicateKey:
+	switch {
+	case errors.Is(err, ErrDuplicateKey):
 		log.Println("duplicate key")
 		appErr = AppError{
 			Code: ErrCodeDuplicateKey,
 			Msg:  "Duplicate key",
 		}
-	case ErrIncorrectID:
+	case errors.Is(err, ErrIncorrectID):
 		log.Println("incorrect id error")
 		appErr = AppError{
 			Code: ErrCodeInvalidParams,
 			Msg:  "Incorrect id",
 		}
-	case ErrNotFound:
+	case errors.Is(err, ErrNotFound):
 		log.Println("not found error")
 		appErr = AppError{
 			Code: ErrCodeNotFound,
