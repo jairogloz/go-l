@@ -2,12 +2,13 @@ package team
 
 import (
 	"context"
+
 	"log"
 	"time"
 
 	"github.com/jairogloz/go-l/internal/domain"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
 /*
 Create a new team
 
@@ -28,6 +29,5 @@ func (s *Service) Create(ctx context.Context, team *domain.Team) (err error) {
 		log.Println(appErr.Error())
 		return appErr
 	}
-
 	return nil
 }
