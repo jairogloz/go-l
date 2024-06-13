@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/jairogloz/go-l/internal/domain"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
 /*
 Create a new team
 
