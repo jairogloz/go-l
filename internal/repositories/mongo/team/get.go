@@ -16,8 +16,7 @@ func (r Repository) Get(ctx context.Context, id string) (team domain.Team, err e
 		return team, fmt.Errorf("%w: error getting team: %s", domain.ErrIncorrectID, err)
 	}
 
-	collection := r.Client.Database("go-l").Collection("teams")
-	err = collection.FindOne(ctx, bson.M{"_id": teamID}).Decode(&team)
+	err = r.Collection.FindOne(ctx, bson.M{"_id": teamID}).Decode(&team)
 	if err != nil {
 		log.Println(err.Error())
 		return team, fmt.Errorf("%w: error getting team: %s", domain.ErrNotFound, err)
