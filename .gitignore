@@ -17,6 +17,7 @@
 
 # IDE files
 .idea/
+.vscode
 
 # GoLand, IntelliJ IDEA
 *.iml
