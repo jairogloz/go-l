@@ -2,39 +2,29 @@ package player
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"log"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/jairogloz/go-l/internal/domain"
 )
 
-type GetPlayerError struct {
-	Err error
-}
-
-func (e GetPlayerError) Error() string {
-	return fmt.Sprintf("error getting player: %s", e.Err.Error())
-}
-
-func (r *Repository) Get(id string) (player domain.Player, err error) {
+func (r *Repository) Get(id string) (player *domain.Player, err error) {
 	playerID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		log.Println(err.Error())
-		err = GetPlayerError{Err: err}
-		return
+		return nil, fmt.Errorf("invalid id: %w", err)
 	}
 
-	collection := r.Client.Database("go-l").Collection("players")
-	err = collection.FindOne(context.Background(), bson.M{"_id": playerID}).Decode(&player)
+	err = r.Collection.FindOne(context.Background(), bson.M{"_id": playerID}).Decode(&player)
 	if err != nil {
-		log.Println(err.Error())
-		err = GetPlayerError{Err: err}
-		return
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return nil, domain.ErrNotFound
+		}
+		return nil, err
 	}
 
 	player.ID = playerID.Hex()
-	return
+	return player, nil
 }

@@ -1,27 +1,24 @@
 package player
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
 	"github.com/jairogloz/go-l/internal/domain"
 )
 
-type GetPlayerError struct {
-	details error
-}
-
-func (e GetPlayerError) Error() string {
-	return fmt.Sprintf("error getting player: %s", e.details.Error())
-}
-
-func (s *Service) Get(id string) (player domain.Player, err error) {
+func (s *Service) Get(id string) (player *domain.Player, err error) {
 	player, err = s.Repo.Get(id)
 	if err != nil {
+		if errors.Is(err, domain.ErrNotFound) {
+			return nil, domain.NewAppError(
+				domain.ErrCodeNotFound,
+				fmt.Sprintf("player with id '%s' not found", id))
+		}
 		log.Println(err.Error())
-		err = GetPlayerError{err}
-		return
+		return nil, fmt.Errorf("unexpected error getting player: %w", err)
 	}
 
-	return
+	return player, nil
 }
