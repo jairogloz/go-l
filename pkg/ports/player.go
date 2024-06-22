@@ -1,6 +1,6 @@
 package ports
 
-import "github.com/jairogloz/go-l/internal/domain"
+import "github.com/jairogloz/go-l/pkg/domain"
 
 type PlayerService interface {
 	Create(player *domain.Player) (err error)

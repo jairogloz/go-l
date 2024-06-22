@@ -1,7 +1,7 @@
 package player
 
 import (
-	"github.com/jairogloz/go-l/internal/ports"
+	"github.com/jairogloz/go-l/pkg/ports"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

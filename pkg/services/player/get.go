@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/jairogloz/go-l/internal/domain"
+	"github.com/jairogloz/go-l/pkg/domain"
 )
 
 func (s *Service) Get(id string) (player *domain.Player, err error) {
