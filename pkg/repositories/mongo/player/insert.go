@@ -3,7 +3,7 @@ package player
 import (
 	"context"
 	"fmt"
-	"github.com/jairogloz/go-l/internal/domain"
+	"github.com/jairogloz/go-l/pkg/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"

@@ -2,7 +2,7 @@ package ports
 
 import (
 	"context"
-	"github.com/jairogloz/go-l/internal/domain"
+	"github.com/jairogloz/go-l/pkg/domain"
 )
 
 type TeamService interface {

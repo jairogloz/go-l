@@ -11,13 +11,14 @@ const (
 	ErrCodeInternalServerError = "internal_server_error"
 	ErrCodeInvalidParams       = "invalid_params"
 	ErrCodeNotFound            = "not_found"
+	ErrCodeTimeout             = "timeout"
 )
 
 var (
 	ErrDuplicateKey = errors.New("duplicate key error")
 	ErrIncorrectID  = errors.New("incorrect id error")
 	ErrNotFound     = errors.New("record not found error")
-	ErrDeleteTeam   = errors.New("error deleting team")
+	ErrTimeout      = errors.New("timeout error")
 )
 
 // AppError is a custom error type that implements the error interface
@@ -60,6 +61,12 @@ func ManageError(err error, msg string) error {
 		appErr = AppError{
 			Code: ErrCodeNotFound,
 			Msg:  "Not found",
+		}
+	case errors.Is(err, ErrTimeout):
+		log.Println("timeout error")
+		appErr = AppError{
+			Code: ErrCodeTimeout,
+			Msg:  "Timeout",
 		}
 	default:
 		log.Println(err.Error())

@@ -1,7 +1,7 @@
 package player
 
 import (
-	"github.com/jairogloz/go-l/internal/domain"
+	"github.com/jairogloz/go-l/pkg/domain"
 )
 
 // Delete player by id

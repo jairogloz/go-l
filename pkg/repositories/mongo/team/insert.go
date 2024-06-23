@@ -3,10 +3,10 @@ package team
 import (
 	"context"
 	"fmt"
-	"log"
-	"github.com/jairogloz/go-l/internal/domain"
+	"github.com/jairogloz/go-l/pkg/domain"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"log"
 )
 
 func (r *Repository) Insert(ctx context.Context, team *domain.Team) (err error) {
@@ -22,6 +22,6 @@ func (r *Repository) Insert(ctx context.Context, team *domain.Team) (err error) 
 		log.Println(err.Error())
 		return fmt.Errorf("error inserting team: %w", err)
 	}
-	
+
 	return nil
 }

@@ -1,7 +1,7 @@
 package player
 
 import (
-	"github.com/jairogloz/go-l/internal/ports"
+	"github.com/jairogloz/go-l/pkg/ports"
 )
 
 // Make sure Service implements the PlayerService interface

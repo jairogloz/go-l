@@ -1,6 +1,6 @@
 package core
 
-import "github.com/jairogloz/go-l/internal/domain"
+import "github.com/jairogloz/go-l/pkg/domain"
 
 // PlayerCreateParams is a struct that represents the parameters needed to create a player.
 type PlayerCreateParams struct {
