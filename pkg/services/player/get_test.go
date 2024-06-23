@@ -2,12 +2,13 @@ package player_test
 
 import (
 	"errors"
+	"testing"
+
 	"github.com/jairogloz/go-l/mocks"
 	"github.com/jairogloz/go-l/pkg/domain"
 	"github.com/jairogloz/go-l/pkg/services/player"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
-	"testing"
 )
 
 func TestService_Get(t *testing.T) {
@@ -56,7 +57,7 @@ func TestService_Get(t *testing.T) {
 				var appErr domain.AppError
 				if errors.As(err, &appErr) {
 					assert.Equal(subTest, domain.ErrCodeTimeout, appErr.Code)
-					assert.Equal(subTest, "timeout error", appErr.Msg)
+					assert.Equal(subTest, "timeout error, try again later", appErr.Msg)
 				} else {
 					subTest.Errorf("expected AppError, got %v", err)
 				}
@@ -91,7 +92,7 @@ func TestService_Get(t *testing.T) {
 	for testName, test := range testTable {
 		t.Run(testName, func(subTest *testing.T) {
 
-			ctrl := gomock.NewController(t)
+			ctrl := gomock.NewController(subTest)
 			defer ctrl.Finish()
 
 			mockPlayerRepo := mocks.NewMockPlayerRepository(ctrl)
