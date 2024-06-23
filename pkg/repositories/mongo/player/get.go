@@ -4,12 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/jairogloz/go-l/pkg/domain"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-
-	"github.com/jairogloz/go-l/pkg/domain"
 )
 
 func (r *Repository) Get(id string) (player *domain.Player, err error) {
