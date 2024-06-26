@@ -6,9 +6,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jairogloz/go-l/cmd/api/handlers/player"
-	"github.com/jairogloz/go-l/internal/repositories/mongo"
-	playerMongo "github.com/jairogloz/go-l/internal/repositories/mongo/player"
-	playerService "github.com/jairogloz/go-l/internal/services/player"
+	"github.com/jairogloz/go-l/pkg/repositories/mongo"
+	playerMongo "github.com/jairogloz/go-l/pkg/repositories/mongo/player"
+	playerService "github.com/jairogloz/go-l/pkg/services/player"
 	"github.com/joho/godotenv"
 )
 

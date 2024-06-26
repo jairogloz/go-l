@@ -3,7 +3,7 @@ package core
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/jairogloz/go-l/internal/domain"
+	"github.com/jairogloz/go-l/pkg/domain"
 	"net/http"
 )
 

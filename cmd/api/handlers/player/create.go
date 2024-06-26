@@ -3,7 +3,7 @@ package player
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jairogloz/go-l/cmd/api/core"
-	"github.com/jairogloz/go-l/internal/domain"
+	"github.com/jairogloz/go-l/pkg/domain"
 )
 
 // CreatePlayer godoc
