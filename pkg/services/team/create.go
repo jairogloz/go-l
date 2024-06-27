@@ -7,12 +7,11 @@ import (
 	"github.com/jairogloz/go-l/pkg/domain"
 )
 
-/*
-Summary: Create a new team based on the provided data and store it in the database
-Method: Create
-Params: context.Context, *domain.Team
-Return: error
-*/
+// Create creates a new team based on the provided data and stores it in the database.
+// Method: Create
+// Path: pkg/services/team/create.go
+// Input: ctx context.Context, team *domain.Team
+// Output: error
 
 func (s Service) Create(ctx context.Context, team *domain.Team) (err error) {
 	now := time.Now().UTC()
