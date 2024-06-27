@@ -4,11 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"testing"
-	"time"
-
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
+	"testing"
 
 	"github.com/jairogloz/go-l/mocks"
 	"github.com/jairogloz/go-l/pkg/domain"
@@ -17,27 +15,20 @@ import (
 
 func TestService_Create(t *testing.T) {
 	ctx := context.TODO()
-	now := time.Now().UTC()
 
 	testTable := map[string]struct {
-		setup         func(mockRepo *mocks.MockTournamentRepository, mockClock *mocks.MockClock)
+		setup         func(mockRepo *mocks.MockTournamentRepository)
 		ctx           context.Context
 		tournament    domain.Tournament
 		assertionFunc func(subTest *testing.T, tm *domain.Tournament, err error)
 	}{
 		"success": {
-			setup: func(mockRepo *mocks.MockTournamentRepository, mockClock *mocks.MockClock) {
-				mockRepo.EXPECT().Insert(ctx, &domain.Tournament{
-					Name:        "tournament test",
-					Description: "a tournament for test",
-					URL:         "https://tournament.test",
-					CreatedAt:   &now,
-				}).
+			setup: func(mockRepo *mocks.MockTournamentRepository) {
+				mockRepo.EXPECT().Insert(ctx, gomock.Any()).
 					Do(func(ctx context.Context, tournament *domain.Tournament) {
 						tournament.ID = "123"
 					}).
 					Return(nil)
-				mockClock.EXPECT().Now().Return(now)
 			},
 			ctx: ctx,
 			tournament: domain.Tournament{
@@ -51,15 +42,9 @@ func TestService_Create(t *testing.T) {
 			},
 		},
 		"error duplicated key": {
-			setup: func(mockRepo *mocks.MockTournamentRepository, mockClock *mocks.MockClock) {
-				mockRepo.EXPECT().Insert(ctx, &domain.Tournament{
-					Name:        "tournament test",
-					Description: "a tournament for test",
-					URL:         "https://tournament.test",
-					CreatedAt:   &now,
-				}).
+			setup: func(mockRepo *mocks.MockTournamentRepository) {
+				mockRepo.EXPECT().Insert(ctx, gomock.Any()).
 					Return(fmt.Errorf("%w: error inserting player", domain.ErrDuplicateKey))
-				mockClock.EXPECT().Now().Return(now)
 			},
 			ctx: ctx,
 			tournament: domain.Tournament{
@@ -80,15 +65,9 @@ func TestService_Create(t *testing.T) {
 			},
 		},
 		"generic error in repository": {
-			setup: func(mockRepo *mocks.MockTournamentRepository, mockClock *mocks.MockClock) {
-				mockRepo.EXPECT().Insert(ctx, &domain.Tournament{
-					Name:        "tournament test",
-					Description: "a tournament for test",
-					URL:         "https://tournament.test",
-					CreatedAt:   &now,
-				}).
+			setup: func(mockRepo *mocks.MockTournamentRepository) {
+				mockRepo.EXPECT().Insert(ctx, gomock.Any()).
 					Return(errors.New("unexpected error inserting tournament"))
-				mockClock.EXPECT().Now().Return(now)
 			},
 			ctx: ctx,
 			tournament: domain.Tournament{
@@ -109,10 +88,9 @@ func TestService_Create(t *testing.T) {
 			defer ctrl.Finish()
 
 			mockRepo := mocks.NewMockTournamentRepository(ctrl)
-			mockClock := mocks.NewMockClock(ctrl)
-			tc.setup(mockRepo, mockClock)
+			tc.setup(mockRepo)
 
-			s := tournament.Service{Repo: mockRepo, Clock: mockClock}
+			s := tournament.Service{Repo: mockRepo}
 			err := s.Create(tc.ctx, &tc.tournament)
 			tc.assertionFunc(subTest, &tc.tournament, err)
 		})

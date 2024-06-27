@@ -5,13 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/jairogloz/go-l/pkg/domain"
 )
 
 // Create creates a new tournament.
 func (s *Service) Create(ctx context.Context, tournament *domain.Tournament) (err error) {
-	now := s.Clock.Now().UTC()
+	now := time.Now().UTC()
 	tournament.CreatedAt = &now
 
 	err = s.Repo.Insert(ctx, tournament)

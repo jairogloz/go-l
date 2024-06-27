@@ -14,7 +14,6 @@ import (
 	tournamentMongo "github.com/jairogloz/go-l/pkg/repositories/mongo/tournament"
 	playerService "github.com/jairogloz/go-l/pkg/services/player"
 	tournamentService "github.com/jairogloz/go-l/pkg/services/tournament"
-	"github.com/jairogloz/go-l/pkg/shared/time"
 )
 
 func main() {
@@ -33,8 +32,6 @@ func main() {
 
 	database := client.Database("go-l")
 
-	clock := &time.Clock{}
-
 	playerRepo := &playerMongo.Repository{
 		Client:     client,
 		Collection: database.Collection("players"),
@@ -50,8 +47,7 @@ func main() {
 	}
 
 	tournamentSrv := &tournamentService.Service{
-		Repo:  tournamentRepo,
-		Clock: clock,
+		Repo: tournamentRepo,
 	}
 
 	playerHandler := &player.Handler{
