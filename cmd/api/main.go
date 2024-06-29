@@ -41,6 +41,10 @@ func main() {
 		Client:     client,
 		Collection: database.Collection("tournaments"),
 	}
+	err = playerRepo.CreateIndexes()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	playerSrv := &playerService.Service{
 		Repo: playerRepo,
