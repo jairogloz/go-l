@@ -4,11 +4,12 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+	"go.uber.org/mock/gomock"
+
 	"github.com/jairogloz/go-l/mocks"
 	"github.com/jairogloz/go-l/pkg/domain"
 	"github.com/jairogloz/go-l/pkg/services/player"
-	"github.com/stretchr/testify/assert"
-	"go.uber.org/mock/gomock"
 )
 
 func TestService_Get(t *testing.T) {
