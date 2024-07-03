@@ -14,7 +14,6 @@ type TeamService interface {
 
 type TeamRepository interface {
 	Insert(ctx context.Context, team *domain.Team) (err error)
-	Get(ctx context.Context, id string) (team domain.Team, err error)
-	GetPlayers(ctx context.Context, teamID string) (players []domain.Player, err error)
+	Get(ctx context.Context, id string) (team *domain.Team, err error)
 	Delete(ctx context.Context, id string) (err error)
 }
