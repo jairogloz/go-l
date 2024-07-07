@@ -19,7 +19,11 @@ type Repository struct {
 	Collection *mongo.Collection
 }
 
+// CreateIndexes creates the secondary indexes for the collection
 func (r *Repository) CreateIndexes() error {
+	// Create the team_id index
+	// This index is used to search for players by team_id
+	// The index is not unique because a team can have multiple players
 	_, err := r.Collection.Indexes().CreateOne(context.Background(), mongo.IndexModel{
 		Keys:    bson.D{{Key: "team_info.team_id", Value: 1}},
 		Options: options.Index().SetUnique(false),

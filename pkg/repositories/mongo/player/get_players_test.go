@@ -27,7 +27,7 @@ func TestService_GetPlayersByTeamID(t *testing.T) {
 		"should return empty players list when team id not found": {
 			teamID: "team2",
 			assertionFunc: func(subTest *testing.T, p []*domain.Player, err error) {
-				assert.Nil(subTest, err)
+				assert.ErrorContains(subTest, err, domain.ErrNotFound.Error())
 				assert.Equal(subTest, 0, len(p))
 			},
 		},
@@ -42,7 +42,9 @@ func TestService_GetPlayersByTeamID(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error setting up repository: %v", err)
 	}
-
+	if err := addPlayerToCollection(repo, &domain.Player{TeamInfo: &domain.TeamInfo{TeamID: "team1"}}); err != nil {
+		t.Fatalf("error adding player to collection: %v", err)
+	}
 	for testName, test := range testTable {
 		t.Run(testName, func(subTest *testing.T) {
 			players, err := repo.GetPlayersByTeamID(test.teamID)
@@ -71,15 +73,15 @@ func setupRepository(db *mongodb.MongoDBContainer) (*player.Repository, error) {
 	if err = playerRepo.CreateIndexes(); err != nil {
 		return nil, err
 	}
-	if err := playerRepo.Insert(&domain.Player{
-		TeamInfo: &domain.TeamInfo{
-			TeamID: "team1",
-		},
-	}); err != nil {
-		return nil, err
-
-	}
 	return playerRepo, nil
+}
+
+func addPlayerToCollection(repo *player.Repository, p *domain.Player) error {
+	_, err := repo.Collection.InsertOne(context.Background(), p)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // startMongoDB will return a mongodb testcontainer instance or an error
