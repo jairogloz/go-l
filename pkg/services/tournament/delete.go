@@ -32,7 +32,7 @@ func (s *Service) Delete(ctx context.Context, id string) (err error) {
 		}
 
 		log.Println(err.Error())
-		return fmt.Errorf("error creating tournament: %w", err)
+		return fmt.Errorf("error deleting tournament: %w", err)
 	}
 
 	return
