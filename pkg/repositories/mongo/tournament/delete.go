@@ -12,12 +12,12 @@ import (
 
 // Delete deletes a tournament by id from db
 func (r *Repository) Delete(ctx context.Context, id string) (err error) {
-	teamID, err := primitive.ObjectIDFromHex(id)
+	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return domain.ErrIncorrectID
 	}
 
-	deleteResult, err := r.Collection.DeleteOne(ctx, bson.M{"_id": teamID})
+	deleteResult, err := r.Collection.DeleteOne(ctx, bson.M{"_id": oid})
 	if err != nil {
 		return fmt.Errorf("error deleting tournament: %s", err.Error())
 	}
