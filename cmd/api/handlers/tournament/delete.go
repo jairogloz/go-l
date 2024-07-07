@@ -18,6 +18,7 @@ import (
 // @Success 204 {object} map[string]interface{} "No content"
 // @Failure 400 {object} map[string]interface{} "error: string"
 // @Failure 404 {object} map[string]interface{} "error: string"
+// @Failure 500 {object} map[string]interface{} "error: string"
 // @Router /tournaments/{id} [delete]
 func (h Handler) DeleteTournament(c *gin.Context) {
 	id := c.Param("id")
