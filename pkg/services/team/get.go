@@ -7,6 +7,7 @@ import (
 )
 
 // Get retrieves a team and its players.
+// returns the team and its players or an error if something goes wrong.
 func (s Service) Get(ctx context.Context, id string) (team *domain.Team, players []domain.Player, err error) {
 	team, err = s.Repo.Get(ctx, id)
 
