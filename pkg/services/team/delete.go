@@ -1,8 +1,18 @@
 package team
 
-import "context"
+import (
+	"context"
+
+	"github.com/jairogloz/go-l/pkg/domain"
+)
 
 func (s Service) Delete(ctx context.Context, id string) (err error) {
-	//TODO implement me
-	panic("implement me")
+
+	err = s.Repo.Delete(ctx, id)
+
+	if err != nil {
+		return domain.ManageError(err, "unexpected error deleting team")
+	}
+
+	return nil
 }
