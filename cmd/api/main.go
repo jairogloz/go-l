@@ -67,6 +67,7 @@ func main() {
 	ginEngine.DELETE("/players/:id", playerHandler.DeletePlayer)
 
 	ginEngine.POST("/tournaments", tournamentHandler.CreateTournament)
+	ginEngine.DELETE("/tournaments/:id", tournamentHandler.DeleteTournament)
 
 	log.Fatalln(ginEngine.Run(":8001"))
 
