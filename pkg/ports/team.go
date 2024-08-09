@@ -8,7 +8,7 @@ import (
 
 type TeamService interface {
 	Create(ctx context.Context, team *domain.Team) (err error)
-	Get(ctx context.Context, id string) (team *domain.Team, players []domain.Player, err error)
+	Get(ctx context.Context, id string) (team *domain.Team, err error)
 	Delete(ctx context.Context, id string) (err error)
 }
 
