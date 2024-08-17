@@ -13,6 +13,10 @@ import (
 )
 
 func TestService_GetPlayersByTeamID(t *testing.T) {
+	// Skip this test if the short flag is provided
+	if testing.Short() {
+		t.Skip("skipping integration test")
+	}
 	testTable := map[string]struct {
 		teamID        string
 		assertionFunc func(subTest *testing.T, p []*domain.Player, err error)
