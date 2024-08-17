@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jairogloz/go-l/cmd/api/handlers/league"
 	"github.com/joho/godotenv"
 
-	"github.com/jairogloz/go-l/cmd/api/handlers/league"
 	"github.com/jairogloz/go-l/cmd/api/handlers/player"
 	"github.com/jairogloz/go-l/cmd/api/handlers/tournament"
 	"github.com/jairogloz/go-l/pkg/repositories/mongo"
@@ -71,18 +71,19 @@ func main() {
 		PlayerService: playerSrv,
 	}
 
-	tournamentHandler := &tournament.Handler{
-		TournamentService: tournamentSrv,
-	}
-
 	leagueHandler := &league.Handler{
 		LeagueService: leagueSrv,
+	}
+
+	tournamentHandler := &tournament.Handler{
+		TournamentService: tournamentSrv,
 	}
 
 	ginEngine.GET("/players/:id", playerHandler.GetPlayer)
 	ginEngine.POST("/players", playerHandler.CreatePlayer)
 	ginEngine.DELETE("/players/:id", playerHandler.DeletePlayer)
 
+	ginEngine.GET("/league/:id", leagueHandler.GetLeague)
 	ginEngine.POST("/tournaments", tournamentHandler.CreateTournament)
 	ginEngine.DELETE("/tournaments/:id", tournamentHandler.DeleteTournament)
 
