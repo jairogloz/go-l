@@ -8,7 +8,6 @@ import (
 	"github.com/jairogloz/go-l/cmd/api/handlers/league"
 	"github.com/joho/godotenv"
 
-	"github.com/jairogloz/go-l/cmd/api/handlers/league"
 	"github.com/jairogloz/go-l/cmd/api/handlers/player"
 	"github.com/jairogloz/go-l/cmd/api/handlers/tournament"
 	"github.com/jairogloz/go-l/pkg/repositories/mongo"
@@ -72,25 +71,12 @@ func main() {
 		PlayerService: playerSrv,
 	}
 
-	leagueRepo := &leagueMongo.Repository{
-		Client:     client,
-		Collection: client.Database("go-l").Collection("leagues"),
-	}
-
-	leagueSrv := &leagueService.Service{
-		Repo: leagueRepo,
-	}
-
 	leagueHandler := &league.Handler{
 		LeagueService: leagueSrv,
 	}
 
 	tournamentHandler := &tournament.Handler{
 		TournamentService: tournamentSrv,
-	}
-
-	leagueHandler := &league.Handler{
-		LeagueService: leagueSrv,
 	}
 
 	ginEngine.GET("/players/:id", playerHandler.GetPlayer)
