@@ -8,6 +8,7 @@ import (
 	"github.com/jairogloz/go-l/cmd/api/handlers/league"
 	"github.com/joho/godotenv"
 
+	"github.com/jairogloz/go-l/cmd/api/handlers/league"
 	"github.com/jairogloz/go-l/cmd/api/handlers/player"
 	"github.com/jairogloz/go-l/cmd/api/handlers/tournament"
 	"github.com/jairogloz/go-l/pkg/repositories/mongo"
@@ -45,12 +46,26 @@ func main() {
 		Collection: database.Collection("tournaments"),
 	}
 
+	leagueRepo := &leagueMongo.Repository{
+		Client:     client,
+		Collection: database.Collection("leagues"),
+	}
+
+	err = playerRepo.CreateIndexes()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 	playerSrv := &playerService.Service{
 		Repo: playerRepo,
 	}
 
 	tournamentSrv := &tournamentService.Service{
 		Repo: tournamentRepo,
+	}
+
+	leagueSrv := &leagueService.Service{
+		Repo: leagueRepo,
 	}
 
 	playerHandler := &player.Handler{
@@ -74,12 +89,19 @@ func main() {
 		TournamentService: tournamentSrv,
 	}
 
+	leagueHandler := &league.Handler{
+		LeagueService: leagueSrv,
+	}
+
 	ginEngine.GET("/players/:id", playerHandler.GetPlayer)
 	ginEngine.POST("/players", playerHandler.CreatePlayer)
 	ginEngine.DELETE("/players/:id", playerHandler.DeletePlayer)
 
 	ginEngine.GET("/league/:id", leagueHandler.GetLeague)
 	ginEngine.POST("/tournaments", tournamentHandler.CreateTournament)
+	ginEngine.DELETE("/tournaments/:id", tournamentHandler.DeleteTournament)
+
+	ginEngine.POST("/leagues", leagueHandler.CreateLeague)
 
 	log.Fatalln(ginEngine.Run(":8001"))
 

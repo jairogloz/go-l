@@ -2,9 +2,10 @@ package mongo
 
 import (
 	"context"
+	"time"
+
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 func ConnectClient(dbURI string) (client *mongo.Client, err error) {

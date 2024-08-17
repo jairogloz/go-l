@@ -68,6 +68,21 @@ func (mr *MockPlayerRepositoryMockRecorder) Get(arg0 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockPlayerRepository)(nil).Get), arg0)
 }
 
+// GetPlayersByTeamID mocks base method.
+func (m *MockPlayerRepository) GetPlayersByTeamID(arg0 string) ([]*domain.Player, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPlayersByTeamID", arg0)
+	ret0, _ := ret[0].([]*domain.Player)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetPlayersByTeamID indicates an expected call of GetPlayersByTeamID.
+func (mr *MockPlayerRepositoryMockRecorder) GetPlayersByTeamID(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPlayersByTeamID", reflect.TypeOf((*MockPlayerRepository)(nil).GetPlayersByTeamID), arg0)
+}
+
 // Insert mocks base method.
 func (m *MockPlayerRepository) Insert(arg0 *domain.Player) error {
 	m.ctrl.T.Helper()

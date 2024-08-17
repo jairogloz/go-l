@@ -11,5 +11,6 @@ type PlayerService interface {
 type PlayerRepository interface {
 	Insert(player *domain.Player) (err error)
 	Get(id string) (player *domain.Player, err error)
+	GetPlayersByTeamID(id string) (players []*domain.Player, err error)
 	Delete(id string) (err error)
 }
