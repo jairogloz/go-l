@@ -6,6 +6,7 @@ type PlayerService interface {
 	Create(player *domain.Player) (err error)
 	Get(id string) (player *domain.Player, err error)
 	Delete(id string) (err error)
+	GetAll() (players []*domain.Player, err error)
 }
 
 type PlayerRepository interface {
@@ -13,4 +14,5 @@ type PlayerRepository interface {
 	Get(id string) (player *domain.Player, err error)
 	GetPlayersByTeamID(id string) (players []*domain.Player, err error)
 	Delete(id string) (err error)
+	GetAll() (players []*domain.Player, err error)
 }
