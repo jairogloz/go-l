@@ -12,6 +12,10 @@ func (h Handler) GetAllPlayers(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, players)
+	if players == nil {
+		ctx.Status(http.StatusNoContent)
+	} else {
+		ctx.JSON(http.StatusOK, players)
+	}
 
 }
