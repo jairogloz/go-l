@@ -13,22 +13,26 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func TestService_DeleteLeague(t *testing.T) {
+func TestRepository_DeleteLeague(t *testing.T) {
+	
+	validObjectIDLeague := primitive.NewObjectID()
+	validIDLeague := validObjectIDLeague.Hex()
+	
 	// Skip this test if the short flag is provided
 	if testing.Short() {
 		t.Skip("skipping integration test")
 	}
-
+	
 	testTable := map[string]struct {
 		leagueID      string
 		setupFunc     func(repo *league.Repository) error
 		assertionFunc func(subTest *testing.T, err error)
-	}{
+		}{
 		"should delete league successfully": {
-			leagueID: "valid-league-id",
+			leagueID: validIDLeague,
 			setupFunc: func(repo *league.Repository) error {
 				league := &domain.League{
-					ID:   primitive.NewObjectID(),
+					ID:   validIDLeague,
 					Name: "Premier League",
 				}
 				return addLeagueToCollection(repo, league)
