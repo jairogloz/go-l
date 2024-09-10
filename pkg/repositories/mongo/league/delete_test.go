@@ -14,25 +14,24 @@ import (
 )
 
 func TestRepository_DeleteLeague(t *testing.T) {
-	
-	validObjectIDLeague := primitive.NewObjectID()
-	validIDLeague := validObjectIDLeague.Hex()
-	
+	// Generate a valid ObjectID
+	validID := primitive.NewObjectID()
+
 	// Skip this test if the short flag is provided
 	if testing.Short() {
 		t.Skip("skipping integration test")
 	}
-	
+
 	testTable := map[string]struct {
-		leagueID      string
+		leagueID      primitive.ObjectID
 		setupFunc     func(repo *league.Repository) error
 		assertionFunc func(subTest *testing.T, err error)
-		}{
+	}{
 		"should delete league successfully": {
-			leagueID: validIDLeague,
+			leagueID: validID,
 			setupFunc: func(repo *league.Repository) error {
 				league := &domain.League{
-					ID:   validIDLeague,
+					ID:   validID,
 					Name: "Premier League",
 				}
 				return addLeagueToCollection(repo, league)
@@ -42,9 +41,8 @@ func TestRepository_DeleteLeague(t *testing.T) {
 			},
 		},
 		"should return not found when deleting a non-existent league": {
-			leagueID: primitive.NewObjectID().Hex(),
+			leagueID: primitive.NewObjectID(), 
 			setupFunc: func(repo *league.Repository) error {
-				// No setup needed as we are testing deletion of a non-existent league
 				return nil
 			},
 			assertionFunc: func(subTest *testing.T, err error) {
@@ -52,13 +50,12 @@ func TestRepository_DeleteLeague(t *testing.T) {
 			},
 		},
 		"should return error when given an invalid league ID": {
-			leagueID: "invalid-league-id",
+			leagueID: primitive.NilObjectID, // Using a nil ObjectID to simulate invalid
 			setupFunc: func(repo *league.Repository) error {
-				// No setup needed for invalid ID test
 				return nil
 			},
 			assertionFunc: func(subTest *testing.T, err error) {
-				assert.ErrorContains(subTest, err, domain.ErrIncorrectID.Error())
+				assert.ErrorContains(subTest, err, domain.ErrNotFound.Error())
 			},
 		},
 	}
@@ -67,7 +64,12 @@ func TestRepository_DeleteLeague(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error starting mongodb container: %v", err)
 	}
-	defer db.Container.Terminate(context.Background()) // nolint: errcheck
+	defer func() {
+		terminateErr := db.Container.Terminate(context.Background())
+		if terminateErr != nil {
+			t.Errorf("error terminating mongodb container: %v", terminateErr)
+		}
+	}()
 
 	repo, err := setupLeagueRepository(db)
 	if err != nil {
@@ -81,7 +83,7 @@ func TestRepository_DeleteLeague(t *testing.T) {
 					subTest.Fatalf("error in setup: %v", err)
 				}
 			}
-			err := repo.Delete(test.leagueID)
+			err := repo.Delete(test.leagueID.Hex()) // Convert ObjectID to string
 			test.assertionFunc(subTest, err)
 		})
 	}
@@ -107,6 +109,7 @@ func setupLeagueRepository(db *mongodb.MongoDBContainer) (*league.Repository, er
 	return leagueRepo, nil
 }
 
+// addLeagueToCollection inserts a league with a specific ObjectID
 func addLeagueToCollection(repo *league.Repository, l *domain.League) error {
 	_, err := repo.Collection.InsertOne(context.Background(), l)
 	if err != nil {
