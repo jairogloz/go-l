@@ -83,10 +83,10 @@ func (mr *MockPlayerServiceMockRecorder) Get(arg0 any) *gomock.Call {
 }
 
 // GetAll mocks base method.
-func (m *MockPlayerService) GetAll(arg0 string) (*domain.Player, error) {
+func (m *MockPlayerService) GetAll(arg0 string) ([]*domain.Player, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll", arg0)
-	ret0, _ := ret[0].(*domain.Player)
+	ret0, _ := ret[0].([]*domain.Player)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
