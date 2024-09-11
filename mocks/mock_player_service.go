@@ -83,16 +83,16 @@ func (mr *MockPlayerServiceMockRecorder) Get(arg0 any) *gomock.Call {
 }
 
 // GetAll mocks base method.
-func (m *MockPlayerService) GetAll(arg0 string) ([]*domain.Player, error) {
+func (m *MockPlayerService) GetAll() ([]*domain.Player, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAll", arg0)
+	ret := m.ctrl.Call(m, "GetAll")
 	ret0, _ := ret[0].([]*domain.Player)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAll indicates an expected call of GetAll.
-func (mr *MockPlayerServiceMockRecorder) GetAll(arg0 any) *gomock.Call {
+func (mr *MockPlayerServiceMockRecorder) GetAll() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockPlayerService)(nil).GetAll), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAll", reflect.TypeOf((*MockPlayerService)(nil).GetAll))
 }
