@@ -7,7 +7,7 @@ import (
 	"log"
 )
 
-// Get retrieves a player by their ID from the repository.
+// GetAll retrieves all players from the repository.
 // It returns an Array of domain.Player objects and an error.
 // If the player is not found in the repository, it returns a domain-specific not found error.
 // If there is a timeout error when accessing the repository, it returns a domain-specific timeout error.

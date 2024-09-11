@@ -57,7 +57,7 @@ func TestService_GetPlayersByTeamID(t *testing.T) {
 	}
 }
 
-func TestService_GetAll(t *testing.T) {
+func TestRepository_GetAll(t *testing.T) {
 	// Skip this test if the short flag is provided
 	if testing.Short() {
 		t.Skip("skipping integration test")
