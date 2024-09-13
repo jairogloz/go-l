@@ -40,6 +40,20 @@ func (m *MockLeagueRepository) EXPECT() *MockLeagueRepositoryMockRecorder {
 	return m.recorder
 }
 
+// Delete mocks base method.
+func (m *MockLeagueRepository) Delete(arg0 string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockLeagueRepositoryMockRecorder) Delete(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockLeagueRepository)(nil).Delete), arg0)
+}
+
 // Get mocks base method.
 func (m *MockLeagueRepository) Get(arg0 string) (*domain.League, error) {
 	m.ctrl.T.Helper()
