@@ -80,6 +80,7 @@ func main() {
 	}
 
 	ginEngine.GET("/players/:id", playerHandler.GetPlayer)
+	ginEngine.GET("/players", playerHandler.GetAllPlayers)
 	ginEngine.POST("/players", playerHandler.CreatePlayer)
 	ginEngine.DELETE("/players/:id", playerHandler.DeletePlayer)
 	

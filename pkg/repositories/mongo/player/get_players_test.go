@@ -57,6 +57,65 @@ func TestService_GetPlayersByTeamID(t *testing.T) {
 	}
 }
 
+func TestRepository_GetAll(t *testing.T) {
+	// Skip this test if the short flag is provided
+	if testing.Short() {
+		t.Skip("skipping integration test")
+	}
+
+	testTable := map[string]struct {
+		setupFunc     func(repo *player.Repository) error
+		assertionFunc func(subTest *testing.T, p []*domain.Player, err error)
+	}{
+		"should return empty list when no players are present": {
+			setupFunc: func(repo *player.Repository) error {
+				return nil // No players added
+			},
+			assertionFunc: func(subTest *testing.T, p []*domain.Player, err error) {
+				assert.Nil(subTest, err)
+				assert.Equal(subTest, 0, len(p))
+			},
+		},
+		"should return all players": {
+			setupFunc: func(repo *player.Repository) error {
+				return addPlayerToCollection(repo, &domain.Player{FirstName: "John", LastName: "Doe"})
+			},
+			assertionFunc: func(subTest *testing.T, p []*domain.Player, err error) {
+				assert.Nil(subTest, err)
+				assert.Equal(subTest, 1, len(p))
+				assert.Equal(subTest, "John", p[0].FirstName)
+				assert.Equal(subTest, "Doe", p[0].LastName)
+			},
+		},
+	}
+
+	db, err := startMongoDB(context.Background())
+	if err != nil {
+		t.Fatalf("error starting mongodb container: %v", err)
+	}
+	defer db.Container.Terminate(context.Background()) // nolint: errcheck
+
+	repo, err := setupRepository(db)
+	if err != nil {
+		t.Fatalf("error setting up repository: %v", err)
+	}
+
+	for testName, test := range testTable {
+		t.Run(testName, func(subTest *testing.T) {
+			// Setup the repository state for the test case
+			if err := test.setupFunc(repo); err != nil {
+				subTest.Fatalf("error during setup: %v", err)
+			}
+
+			// Call the method under test
+			players, err := repo.GetAll()
+
+			// Run assertions
+			test.assertionFunc(subTest, players, err)
+		})
+	}
+}
+
 // setupRepository will return a player repository instance or an error
 // It will create an index in the collection for testing purposes
 // It will also create a player document in the collection for testing purposes
