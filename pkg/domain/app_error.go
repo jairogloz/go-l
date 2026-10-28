@@ -41,6 +41,10 @@ func (e AppError) Error() string {
 }
 
 func ManageError(err error, msg string) error {
+	if err == nil {
+		return nil
+	}
+
 	var appErr AppError
 
 	switch {

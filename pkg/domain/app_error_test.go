@@ -77,6 +77,34 @@ func TestManageError(t *testing.T) {
 			},
 		},
 		{
+			name: "Test ManageError with nil error",
+			args: args{
+				err: nil,
+			},
+			wantErr: nil,
+		},
+		{
+			name: "Test ManageError with ErrTimeout error",
+			args: args{
+				err: ErrTimeout,
+			},
+			wantErr: AppError{
+				Code: ErrCodeTimeout,
+				Msg:  "Timeout",
+			},
+		},
+		{
+			name: "Test ManageError with custom message",
+			args: args{
+				err: ErrNotFound,
+				msg: "resource not found",
+			},
+			wantErr: AppError{
+				Code: ErrCodeNotFound,
+				Msg:  "Not found: resource not found",
+			},
+		},
+		{
 			name: "Test ManageError with unknown error",
 			args: args{
 				err: errors.New("unknown error"),
@@ -93,5 +121,19 @@ func TestManageError(t *testing.T) {
 				t.Errorf("ManageError() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
+	}
+}
+
+func TestNewAppError(t *testing.T) {
+	err := NewAppError(ErrCodeNotFound, "item not found")
+	if err.Code != ErrCodeNotFound {
+		t.Errorf("expected code %s, got %s", ErrCodeNotFound, err.Code)
+	}
+	if err.Msg != "item not found" {
+		t.Errorf("expected msg %s, got %s", "item not found", err.Msg)
+	}
+	expectedStr := "not_found: item not found"
+	if err.Error() != expectedStr {
+		t.Errorf("expected error string %s, got %s", expectedStr, err.Error())
 	}
 }
